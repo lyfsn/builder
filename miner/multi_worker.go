@@ -2,6 +2,7 @@ package miner
 
 import (
 	"errors"
+	"fmt"
 	"math/big"
 	"time"
 
@@ -141,6 +142,7 @@ func (w *multiWorker) buildPayload(args *BuildPayloadArgs) (*Payload, error) {
 			noTxs:       false,
 			onBlock:     args.BlockHook,
 		}
+		fmt.Println("---debug---4--", fullParams.coinbase)
 
 		go func(w *worker) {
 			// Update routine done elsewhere!

@@ -921,7 +921,9 @@ func (w *worker) applyTransaction(env *environment, tx *types.Transaction) (*typ
 	env.header.GasUsed = envGasUsed
 
 	gasUsed := new(uint256.Int).SetUint64(receipt.GasUsed)
+	fmt.Println("---debug---5.1----", env.profit)
 	env.profit.Add(env.profit, gasUsed.Mul(gasUsed, uint256.MustFromBig(gasPrice)))
+	fmt.Println("---debug---5.2----", env.profit)
 
 	return receipt, nil
 }
