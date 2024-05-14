@@ -368,8 +368,11 @@ func (b *Builder) OnPayloadAttribute(attrs *types.BuilderPayloadAttributes) erro
 		return nil
 	}
 
+	fmt.Println("---debug---1--")
 	vd, err := b.relay.GetValidatorForSlot(attrs.Slot)
+	fmt.Println("---debug---2--", vd, err)
 	if err != nil {
+		fmt.Println("---debug---3--")
 		return fmt.Errorf("could not get validator while submitting block for slot %d - %w", attrs.Slot, err)
 	}
 
