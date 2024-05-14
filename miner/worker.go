@@ -847,6 +847,7 @@ func (w *worker) updateSnapshot(env *environment) {
 }
 
 func (w *worker) commitTransaction(env *environment, tx *types.Transaction) ([]*types.Log, error) {
+	fmt.Println("==================debug==============666=========", tx.To(), tx.Value())
 	if tx.Type() == types.BlobTxType {
 		return w.commitBlobTransaction(env, tx)
 	}
@@ -855,7 +856,6 @@ func (w *worker) commitTransaction(env *environment, tx *types.Transaction) ([]*
 		return nil, err
 	}
 	env.txs = append(env.txs, tx)
-	fmt.Println("==================debug==============666=========", tx.To(), tx.Value())
 	env.receipts = append(env.receipts, receipt)
 	return receipt.Logs, nil
 }

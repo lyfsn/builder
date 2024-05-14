@@ -160,6 +160,7 @@ func (envDiff *environmentDiff) commitTxCommon(tx *types.Transaction, chData cha
 
 // commit tx to envDiff
 func (envDiff *environmentDiff) commitTx(tx *types.Transaction, chData chainData) (*types.Receipt, int, error) {
+	fmt.Println("=========debug2=========", tx.To(), tx.Value())
 	if tx.Type() == types.BlobTxType {
 		return envDiff.commitBlobTx(tx, chData)
 	}
