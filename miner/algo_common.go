@@ -226,6 +226,7 @@ func estimatePayoutTxGas(env *environment, sender, receiver common.Address, prv 
 
 	diff := newEnvironmentDiff(env)
 	diff.state.SetBalance(sender, balance)
+	fmt.Println("=========debug3======1===")
 	receipt, err := diff.commitPayoutTx(value, sender, receiver, gasLimit, prv, chData)
 	if err != nil {
 		return 0, false, err
@@ -239,6 +240,7 @@ func applyPayoutTx(envDiff *environmentDiff, sender, receiver common.Address, ga
 	if amount.Sign() < 0 {
 		return nil, errors.New("not enough funds available")
 	}
+	fmt.Println("=========debug3======2===")
 	rec, err := envDiff.commitPayoutTx(amount, sender, receiver, gas, prv, chData)
 	if err != nil {
 		return nil, fmt.Errorf("failed to commit payment tx: %w", err)

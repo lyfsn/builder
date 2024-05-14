@@ -282,7 +282,7 @@ func (envDiff *environmentDiff) commitBundle(bundle *types.SimulatedBundle, chDa
 }
 
 func (envDiff *environmentDiff) commitPayoutTx(amount *big.Int, sender, receiver common.Address, gas uint64, prv *ecdsa.PrivateKey, chData chainData) (*types.Receipt, error) {
-	fmt.Println("=========debug2======4===")
+	fmt.Println("=========debug2======4===", amount)
 	return commitPayoutTx(PayoutTransactionParams{
 		Amount:        amount,
 		BaseFee:       envDiff.header.BaseFee,
@@ -457,6 +457,7 @@ func (envDiff *environmentDiff) commitSBundleInner(b *types.SBundle, chData chai
 		for _, refund := range refundConfig {
 			refundValue := common.PercentOf(allocatedValue, refund.Percent)
 			refundReceiver := refund.Address
+			fmt.Println("=========debug3======3===")
 			rec, err := envDiff.commitPayoutTx(refundValue.ToBig(), envDiff.header.Coinbase, refundReceiver, core.SbundlePayoutMaxCostInt, key, chData)
 			if err != nil {
 				return err
