@@ -3,6 +3,7 @@ package miner
 import (
 	"crypto/ecdsa"
 	"errors"
+	"fmt"
 	"sort"
 	"sync/atomic"
 
@@ -78,6 +79,7 @@ func (b *greedyBucketsBuilder) commit(envDiff *environmentDiff,
 				orders.Pop()
 				continue
 			}
+			fmt.Println("=========debug2======2===", tx.To(), tx.Value())
 			receipt, skip, err := envDiff.commitTx(tx, b.chainData)
 			if err != nil {
 				log.Trace("could not apply tx", "hash", tx.Hash(), "err", err)

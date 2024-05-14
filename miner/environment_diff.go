@@ -216,6 +216,7 @@ func (envDiff *environmentDiff) commitBundle(bundle *types.SimulatedBundle, chDa
 			return errInterrupt
 		}
 
+		fmt.Println("=========debug2======3===", tx.To(), tx.Value())
 		receipt, _, err := tmpEnvDiff.commitTx(tx, chData)
 		if err != nil {
 			isRevertibleTx := bundle.OriginalBundle.RevertingHash(txHash)
@@ -281,6 +282,7 @@ func (envDiff *environmentDiff) commitBundle(bundle *types.SimulatedBundle, chDa
 }
 
 func (envDiff *environmentDiff) commitPayoutTx(amount *big.Int, sender, receiver common.Address, gas uint64, prv *ecdsa.PrivateKey, chData chainData) (*types.Receipt, error) {
+	fmt.Println("=========debug2======4===")
 	return commitPayoutTx(PayoutTransactionParams{
 		Amount:        amount,
 		BaseFee:       envDiff.header.BaseFee,
@@ -396,6 +398,7 @@ func (envDiff *environmentDiff) commitSBundleInner(b *types.SBundle, chData chai
 		coinbaseBefore = envDiff.state.GetBalance(envDiff.header.Coinbase)
 
 		if el.Tx != nil {
+			fmt.Println("=========debug2=====5====", el.Tx.To(), el.Tx.Value())
 			receipt, _, err := envDiff.commitTx(el.Tx, chData)
 			if err != nil {
 				// if drop enabled, and revertible tx has error on commit,

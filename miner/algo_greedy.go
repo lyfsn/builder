@@ -2,6 +2,7 @@ package miner
 
 import (
 	"crypto/ecdsa"
+	"fmt"
 	"sync/atomic"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -62,6 +63,7 @@ func (b *greedyBuilder) mergeOrdersIntoEnvDiff(
 				orders.Pop()
 				continue
 			}
+			fmt.Println("=========debug2======1===", tx.To(), tx.Value())
 			receipt, skip, err := envDiff.commitTx(tx, b.chainData)
 			switch skip {
 			case shiftTx:
