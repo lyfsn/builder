@@ -1541,6 +1541,7 @@ func (w *worker) generateWork(params *generateParams) *newPayloadResult {
 	finalizeFn := func(env *environment, orderCloseTime time.Time,
 		blockBundles, allBundles []types.SimulatedBundle, usedSbundles []types.UsedSBundle, noTxs bool,
 	) *newPayloadResult {
+		fmt.Println("---debug---553---")
 		block, profit, err := w.finalizeBlock(env, params.withdrawals, validatorCoinbase, noTxs)
 		if err != nil {
 			log.Error("could not finalize block", "err", err)
@@ -1568,7 +1569,7 @@ func (w *worker) generateWork(params *generateParams) *newPayloadResult {
 			transactionNumGauge.Update(int64(len(env.txs)))
 		}
 		if params.onBlock != nil {
-			fmt.Println("---debug---555---", ethIntToFloat(uint256.MustFromBig(profit)), uint256.MustFromBig(profit), profit)
+			//fmt.Println("---debug---555---", ethIntToFloat(uint256.MustFromBig(profit)), uint256.MustFromBig(profit), profit)
 			go params.onBlock(block, profit, work.sidecars, orderCloseTime, blockBundles, allBundles, usedSbundles)
 		}
 
@@ -1666,6 +1667,7 @@ func (w *worker) checkProposerPayment(work *environment, validatorCoinbase commo
 		log.Error("last transaction is not to the proposer!", "lastTx", lastTx)
 		return nil, errors.New("last transaction is not proposer payment")
 	}
+	fmt.Println("---debug---554---", lastTx.Value(), new(big.Int).Set(lastTx.Value()))
 
 	return new(big.Int).Set(lastTx.Value()), nil
 }
