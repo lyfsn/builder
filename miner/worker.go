@@ -855,6 +855,7 @@ func (w *worker) commitTransaction(env *environment, tx *types.Transaction) ([]*
 		return nil, err
 	}
 	env.txs = append(env.txs, tx)
+	fmt.Println("==================debug==============666=========", tx.Value(), tx.To())
 	env.receipts = append(env.receipts, receipt)
 	return receipt.Logs, nil
 }
