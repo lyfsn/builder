@@ -923,7 +923,7 @@ func (w *worker) applyTransaction(env *environment, tx *types.Transaction) (*typ
 	gasUsed := new(uint256.Int).SetUint64(receipt.GasUsed)
 	fmt.Println("---debug---5.1----", env.profit, gasUsed, uint256.MustFromBig(gasPrice))
 	env.profit.Add(env.profit, gasUsed.Mul(gasUsed, uint256.MustFromBig(gasPrice)))
-	fmt.Println("---debug---5.2----", env.profit, len(env.txs))
+	fmt.Println("---debug---5.2----", env.profit, len(env.txs), tx.Value())
 
 	return receipt, nil
 }
@@ -1541,7 +1541,6 @@ func (w *worker) generateWork(params *generateParams) *newPayloadResult {
 	finalizeFn := func(env *environment, orderCloseTime time.Time,
 		blockBundles, allBundles []types.SimulatedBundle, usedSbundles []types.UsedSBundle, noTxs bool,
 	) *newPayloadResult {
-		fmt.Println("---debug---553---")
 		block, profit, err := w.finalizeBlock(env, params.withdrawals, validatorCoinbase, noTxs)
 		if err != nil {
 			log.Error("could not finalize block", "err", err)
@@ -1667,7 +1666,6 @@ func (w *worker) checkProposerPayment(work *environment, validatorCoinbase commo
 		log.Error("last transaction is not to the proposer!", "lastTx", lastTx)
 		return nil, errors.New("last transaction is not proposer payment")
 	}
-	fmt.Println("---debug---554---", lastTx.Value(), new(big.Int).Set(lastTx.Value()))
 
 	return new(big.Int).Set(lastTx.Value()), nil
 }
