@@ -100,7 +100,7 @@ func (r *RemoteRelay) updateValidatorsMap(currentSlot uint64, retries int) error
 func (r *RemoteRelay) GetValidatorForSlot(nextSlot uint64) (ValidatorData, error) {
 	// next slot is expected to be the actual chain's next slot, not something requested by the user!
 	// if not sanitized it will force resync of validator data and possibly is a DoS vector
-	fmt.Println("---debug---1--1-", r.lastRequestedSlot == 0 || nextSlot/32 > r.lastRequestedSlot/32)
+	fmt.Println("---debug---1--1-", r.lastRequestedSlot, nextSlot, r.lastRequestedSlot, nextSlot/32, r.lastRequestedSlot/32)
 	r.validatorsLock.RLock()
 	if r.lastRequestedSlot == 0 || nextSlot/32 > r.lastRequestedSlot/32 {
 		fmt.Println("---debug---2--1-")
