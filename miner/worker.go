@@ -964,6 +964,7 @@ func (w *worker) commitBundle(env *environment, txs []*types.Transaction, interr
 
 		// It's important to copy then .SetTxContext() - don't reorder.
 		env.state.SetTxContext(tx.Hash(), env.tcount)
+		fmt.Println("---debug---5.2.1---", tx.Value())
 		logs, err := w.commitTransaction(env, tx)
 		switch {
 		case errors.Is(err, core.ErrGasLimitReached):
@@ -1116,6 +1117,7 @@ func (w *worker) commitTransactions(env *environment, plainTxs, blobTxs *transac
 		// Start executing the transaction
 		env.state.SetTxContext(tx.Hash(), env.tcount)
 
+		fmt.Println("---debug---5.2.2---", tx.Value())
 		logs, err := w.commitTransaction(env, tx)
 		switch {
 		case errors.Is(err, core.ErrNonceTooLow):
