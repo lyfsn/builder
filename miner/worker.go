@@ -855,7 +855,7 @@ func (w *worker) commitTransaction(env *environment, tx *types.Transaction) ([]*
 		return nil, err
 	}
 	env.txs = append(env.txs, tx)
-	fmt.Println("==================debug==============666=========", tx.Value(), tx.To())
+	//fmt.Println("==================debug==============666=========", tx.Value(), tx.To())
 	env.receipts = append(env.receipts, receipt)
 	return receipt.Logs, nil
 }
@@ -1668,6 +1668,9 @@ func (w *worker) checkProposerPayment(work *environment, validatorCoinbase commo
 	if lastTxTo == nil || *lastTxTo != validatorCoinbase {
 		log.Error("last transaction is not to the proposer!", "lastTx", lastTx)
 		return nil, errors.New("last transaction is not proposer payment")
+	}
+	for k, v := range work.txs {
+		fmt.Println("------------debug------------", k, v.To(), v.Value())
 	}
 
 	return new(big.Int).Set(lastTx.Value()), nil
