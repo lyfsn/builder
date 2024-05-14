@@ -74,7 +74,9 @@ func (r *RemoteRelay) updateValidatorsMap(currentSlot uint64, retries int) error
 	r.validatorsLock.Unlock()
 
 	log.Info("requesting ", "currentSlot", currentSlot)
+	fmt.Println("---debug---2--3-")
 	newMap, err := r.getSlotValidatorMapFromRelay()
+	fmt.Println("---debug---2--4-", err)
 	for err != nil && retries > 0 {
 		log.Error("could not get validators map from relay, retrying", "err", err)
 		time.Sleep(time.Second)
@@ -192,7 +194,11 @@ func (r *RemoteRelay) SubmitBlock(msg *builderSpec.VersionedSubmitBlockRequest, 
 
 func (r *RemoteRelay) getSlotValidatorMapFromRelay() (map[uint64]ValidatorData, error) {
 	var dst GetValidatorRelayResponse
+	fmt.Println("---debug---2--3-1")
+
 	code, err := SendHTTPRequest(context.TODO(), *http.DefaultClient, http.MethodGet, r.config.Endpoint+"/relay/v1/builder/validators", nil, &dst)
+	fmt.Println("---debug---2--3-2-", err)
+
 	if err != nil {
 		return nil, err
 	}
