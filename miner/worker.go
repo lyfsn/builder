@@ -1568,6 +1568,7 @@ func (w *worker) generateWork(params *generateParams) *newPayloadResult {
 			transactionNumGauge.Update(int64(len(env.txs)))
 		}
 		if params.onBlock != nil {
+			fmt.Println("---debug---555---", ethIntToFloat(uint256.MustFromBig(profit)), uint256.MustFromBig(profit), profit)
 			go params.onBlock(block, profit, work.sidecars, orderCloseTime, blockBundles, allBundles, usedSbundles)
 		}
 
