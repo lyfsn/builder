@@ -102,7 +102,7 @@ func (r *RemoteRelay) GetValidatorForSlot(nextSlot uint64) (ValidatorData, error
 	// if not sanitized it will force resync of validator data and possibly is a DoS vector
 	fmt.Println("---debug---1--1-", r.lastRequestedSlot, nextSlot, r.lastRequestedSlot, nextSlot/32, r.lastRequestedSlot/32)
 	r.validatorsLock.RLock()
-	if r.lastRequestedSlot == 0 || nextSlot/32 > r.lastRequestedSlot/32 {
+	if r.lastRequestedSlot == 0 || nextSlot/32 > r.lastRequestedSlot/32 || true {
 		fmt.Println("---debug---2--1-")
 		// Every epoch request validators map
 		go func() {
