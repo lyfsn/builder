@@ -2203,6 +2203,7 @@ func (w *worker) proposerTxCommit(env *environment, validatorCoinbase *common.Ad
 		return nil
 	}
 
+	fmt.Println("===========ggggg============", w.coinbase)
 	w.mu.Lock()
 	sender := w.coinbase
 	w.mu.Unlock()
