@@ -63,7 +63,6 @@ type GetValidatorRelayResponse []struct {
 }
 
 func (r *RemoteRelay) updateValidatorsMap(currentSlot uint64, retries int) error {
-	fmt.Println("---debug---2--2-")
 
 	r.validatorsLock.Lock()
 	if r.validatorSyncOngoing {
@@ -74,9 +73,7 @@ func (r *RemoteRelay) updateValidatorsMap(currentSlot uint64, retries int) error
 	r.validatorsLock.Unlock()
 
 	log.Info("requesting ", "currentSlot", currentSlot)
-	fmt.Println("---debug---2--3-")
 	newMap, err := r.getSlotValidatorMapFromRelay()
-	fmt.Println("---debug---2--4-", err)
 	for err != nil && retries > 0 {
 		log.Error("could not get validators map from relay, retrying", "err", err)
 		time.Sleep(time.Second)
@@ -102,10 +99,8 @@ func (r *RemoteRelay) updateValidatorsMap(currentSlot uint64, retries int) error
 func (r *RemoteRelay) GetValidatorForSlot(nextSlot uint64) (ValidatorData, error) {
 	// next slot is expected to be the actual chain's next slot, not something requested by the user!
 	// if not sanitized it will force resync of validator data and possibly is a DoS vector
-	fmt.Println("---debug---1--1-", r.lastRequestedSlot, nextSlot, r.lastRequestedSlot, nextSlot/32, r.lastRequestedSlot/32)
 	r.validatorsLock.RLock()
 	if r.lastRequestedSlot == 0 || nextSlot/32 > r.lastRequestedSlot/32 {
-		fmt.Println("---debug---2--1-")
 		// Every epoch request validators map
 		go func() {
 			err := r.updateValidatorsMap(nextSlot, 1)
@@ -114,11 +109,9 @@ func (r *RemoteRelay) GetValidatorForSlot(nextSlot uint64) (ValidatorData, error
 			}
 		}()
 	}
-	fmt.Println("---debug---1--2-")
 
 	vd, found := r.validatorSlotMap[nextSlot]
 	r.validatorsLock.RUnlock()
-	fmt.Println("---debug---1--3-")
 
 	if r.localRelay != nil {
 		localValidator, err := r.localRelay.GetValidatorForSlot(nextSlot)
@@ -127,12 +120,10 @@ func (r *RemoteRelay) GetValidatorForSlot(nextSlot uint64) (ValidatorData, error
 			return localValidator, nil
 		}
 	}
-	fmt.Println("---debug---1--4-", found)
 
 	if found {
 		return vd, nil
 	}
-	fmt.Println("---debug---1--5-")
 
 	return ValidatorData{}, ErrValidatorNotFound
 }
@@ -194,10 +185,8 @@ func (r *RemoteRelay) SubmitBlock(msg *builderSpec.VersionedSubmitBlockRequest, 
 
 func (r *RemoteRelay) getSlotValidatorMapFromRelay() (map[uint64]ValidatorData, error) {
 	var dst GetValidatorRelayResponse
-	fmt.Println("---debug---2--3-1")
 
 	code, err := SendHTTPRequest(context.TODO(), *http.DefaultClient, http.MethodGet, r.config.Endpoint+"/relay/v1/builder/validators", nil, &dst)
-	fmt.Println("---debug---2--3-2-", err)
 
 	if err != nil {
 		return nil, err

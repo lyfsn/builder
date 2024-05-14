@@ -293,6 +293,8 @@ func (b *Builder) onSealedBlock(opts SubmitBlockOpts) error {
 		}
 	}
 
+	fmt.Println("---debug---333---", opts.BlockValue.String())
+
 	log.Info("submitted block", "version", dataVersion.String(), "slot", opts.PayloadAttributes.Slot, "value", opts.BlockValue.String(), "parent", opts.Block.ParentHash().String(),
 		"hash", opts.Block.Hash(), "#commitedBundles", len(opts.CommitedBundles))
 
@@ -368,11 +370,8 @@ func (b *Builder) OnPayloadAttribute(attrs *types.BuilderPayloadAttributes) erro
 		return nil
 	}
 
-	fmt.Println("---debug---1--")
 	vd, err := b.relay.GetValidatorForSlot(attrs.Slot)
-	fmt.Println("---debug---2--", vd, err)
 	if err != nil {
-		fmt.Println("---debug---3--")
 		return fmt.Errorf("could not get validator while submitting block for slot %d - %w", attrs.Slot, err)
 	}
 
@@ -447,6 +446,7 @@ func (b *Builder) runBuildingJob(slotCtx context.Context, proposerPubkey phase0.
 	log.Debug("runBuildingJob", "slot", attrs.Slot, "parent", attrs.HeadHash, "payloadTimestamp", uint64(attrs.Timestamp))
 
 	submitBestBlock := func() {
+		fmt.Println("---debug---111---", queueBestEntry.blockValue)
 		queueMu.Lock()
 		if queueBestEntry.block.Hash() != queueLastSubmittedHash {
 			submitBlockOpts := SubmitBlockOpts{
@@ -493,6 +493,8 @@ func (b *Builder) runBuildingJob(slotCtx context.Context, proposerPubkey phase0.
 
 		queueMu.Lock()
 		defer queueMu.Unlock()
+		fmt.Println("---debug---222---", blockValue)
+
 		if block.Hash() != queueLastSubmittedHash {
 			queueBestEntry = blockQueueEntry{
 				block:           block,
