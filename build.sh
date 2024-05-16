@@ -1,1 +1,1 @@
-docker build -t geth-mev .
+docker build -t flashbots-geth-builder .
